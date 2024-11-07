@@ -1,0 +1,208 @@
+<nav class="bg-white shadow">
+  <div class="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center py-5">
+    <div class="flex justify-between items-center">
+      <div>
+        <a class="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700" href="#">LIBRERIA CEACE</a>
+      </div>
+      <div class="flex md:hidden">
+        <button type="button" class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600" aria-label="toggle menu">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
+            <path fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="md:flex items-center">
+      <div class="flex flex-col md:flex-row md:mx-6">
+        <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" routerLink="/inicio">Inicio</a>
+        <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" href="#">Tienda</a>
+      </div>
+      <div class="flex justify-center md:block">
+        <a (click)="openCart()" class="relative text-gray-700 hover:text-gray-600 cursor-pointer">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
+        </a>
+      </div>
+      <div *ngIf="!authService.isLoggedIn()">
+        <div class="px-2 py-2 text-white font-semibold rounded-md bg-blue-600 ml-2 hover:bg-blue-500 hover:cursor-pointer">
+          <a routerLink="/login">Iniciar sesión</a>
+        </div>
+        <div class="px-2 py-2 text-white font-semibold rounded-md bg-slate-600 ml-2 hover:bg-slate-500 hover:cursor-pointer">
+          <a routerLink="/registro">Registrarme</a>
+        </div>
+      </div>
+      <div *ngIf="authService.isLoggedIn()" class="px-2 py-2 text-white font-semibold rounded-md bg-red-600 ml-2 hover:bg-red-500 hover:cursor-pointer">
+        <a (click)="logout()">Cerrar Sesión</a>
+      </div>
+      <div *ngIf="authService.isLoggedIn()" class="px-2 py-2 text-white font-semibold rounded-md bg-slate-600 ml-2 hover:bg-slate-500 hover:cursor-pointer">
+        <a routerLink="/ventas">Ventas</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<section class="bg-white dark:bg-gray-900">
+  <div class="container px-6 py-8 mx-auto">
+    <div class="lg:flex lg:-mx-2">
+      <!-- Sidebar -->
+      <div class="space-y-3 lg:w-1/5 lg:px-2 lg:space-y-4">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">Filtros de búsqueda</h2>
+        <div>
+          <h3 class="block font-medium text-gray-500 dark:text-gray-300">Categorías</h3>
+          <ul class="mt-2 space-y-2">
+            <li *ngFor="let categoria of categorias">
+              <a (click)="filterByCategory(categoria.id)"
+                class="block font-medium text-gray-500 dark:text-gray-300 hover:underline cursor-pointer">
+                {{ categoria.nombre }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="block font-medium text-gray-500 dark:text-gray-300">Años</h3>
+          <ul class="mt-2 space-y-2">
+            <li *ngFor="let anio of anios">
+              <a (click)="filterByYear(anio)"
+                class="block font-medium text-gray-500 dark:text-gray-300 hover:underline cursor-pointer">
+                {{ anio }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="mt-6 lg:mt-0 lg:px-2 lg:w-4/5">
+        <div class="flex items-center justify-between text-sm tracking-widest uppercase">
+          <p class="text-gray-500 dark:text-gray-300">{{ books.length }} Items</p>
+          <div class="flex items-center">
+            <p class="text-gray-500 dark:text-gray-300">Ordenar</p>
+            <select class="font-medium text-gray-700 bg-transparent dark:text-gray-500 focus:outline-none">
+              <option value="#">Recomendados</option>
+              <option value="#">Tamaño</option>
+              <option value="#">Precio</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div *ngFor="let book of books" class="flex flex-col items-center justify-center w-full max-w-lg mx-auto">
+            <img class="object-cover w-full rounded-md h-72 xl:h-80"
+              [src]="getImageUrl(book.imagenUrl)" alt="{{ book.titulo }}">
+            <h4 class="mt-2 text-lg font-medium text-gray-700 dark:text-gray-200">{{ book.titulo }}</h4>
+            <p class="text-blue-500">S/.{{ book.precio }}</p>
+            <span class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none">
+              {{ book.stock > 0 ? 'En stock' : 'No hay stock' }}
+            </span>
+            <div class="inline-flex items-center mt-2">
+              <button (click)="decreaseQuantity(book)"
+                class="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+              </button>
+              <div class="bg-gray-100 border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
+                {{ book.quantity || 1 }}
+              </div>
+              <button (click)="increaseQuantity(book)"
+                class="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+            </div>
+            <button (click)="addToCart(book)"
+              class="flex items-center justify-center w-full px-2 py-2 mt-4 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+              </svg>
+              <span class="mx-1">Agregar al carrito</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div *ngIf="isCartOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+  <div class="fixed inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="pointer-events-auto w-screen max-w-md">
+          <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+            <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+              <div class="flex items-start justify-between">
+                <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Carrito de Compras</h2>
+                <div class="ml-3 flex h-7 items-center">
+                  <button (click)="closeCart()" type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+                    <span class="absolute -inset-0.5"></span>
+                    <span class="sr-only">Close panel</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="mt-8">
+                <div class="flow-root">
+                  <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    <li *ngFor="let item of cartItems" class="flex py-6">
+                      <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img [src]="getImageUrl(item.image)" alt="{{ item.title }}" class="h-full w-full object-cover object-center">
+                      </div>
+                      <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                          <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                              <a href="#">{{ item.title }}</a>
+                            </h3>
+                            <p class="ml-4">${{ item.price }}</p>
+                          </div>
+                          <p class="mt-1 text-sm text-gray-500">{{ item.description }}</p>
+                        </div>
+                        <div class="flex flex-1 items-end justify-between text-sm">
+                          <p class="text-gray-500">Cantidad</p><p class="text-gray-800 font-bold"> {{ item.cantidad }}</p>
+                          <div class="flex">
+                            <button (click)="removeFromCart(item.id)" type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Eliminar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+              <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>Subtotal</p>
+                <p>${{ getTotal() }}</p>
+              </div>
+              <p class="mt-0.5 text-sm text-gray-500">Calculando el precio total y los impuestos.</p>
+              <div class="mt-6">
+                <button (click)="realizarCompra()" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                  Comprar
+                </button>
+              </div>
+              <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                <p>
+                  o
+                  <button (click)="closeCart()" type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Continuar explorando
+                    <span aria-hidden="true"> &rarr;</span>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

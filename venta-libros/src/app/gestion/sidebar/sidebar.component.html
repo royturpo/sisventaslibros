@@ -1,0 +1,88 @@
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
+    <div class="text-gray-100 text-xl">
+      <div class="p-2.5 mt-1 flex items-center justify-between">
+        <div class="flex items-center">
+          <img src="https://e7.pngegg.com/pngimages/59/635/png-clipart-digital-library-book-integrated-library-system-information-book-emblem-logo-thumbnail.png" alt="Profile" class="w-10 h-10 rounded-full">
+          <h1 class="font-bold text-gray-200 text-[15px] ml-3">LIBRERIA CEACE</h1>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 cursor-pointer lg:hidden" (click)="openSidebar()">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </div>
+      <div class="my-2 bg-gray-600 h-[1px]"></div>
+    </div>
+    <div class="p-2.5 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-gray-700 text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.4 2.6c1.6-1.2 3.8-1.2 5.4 0 1.6 1.2 2.2 3.4 1.3 5.2L12 12l-5.1-4.2c-.9-1.8-.3-4 1.3-5.2z" />
+      </svg>
+      <input type="text" placeholder="Search" class="text-[15px] ml-4 w-full bg-transparent focus:outline-none" />
+    </div>
+    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" routerLink="/home">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l3 3 5-5 5 5 5-5v6H3v-4z" />
+      </svg>
+      <span class="text-[15px] ml-4 text-gray-200 font-bold">Inicio</span>
+    </div>
+    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" routerLink="/usuarios">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 11.5c2.485 0 4.5-2.015 4.5-4.5S14.485 2.5 12 2.5 7.5 4.515 7.5 7 9.515 11.5 12 11.5zm0 2C9.515 13.5 7.5 15.515 7.5 18H4.5v2h15v-2h-3c0-2.485-2.015-4.5-4.5-4.5z" />
+      </svg>
+      <span class="text-[15px] ml-4 text-gray-200 font-bold">Usuarios</span>
+    </div>
+    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" routerLink="/ventas">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 11.5c2.485 0 4.5-2.015 4.5-4.5S14.485 2.5 12 2.5 7.5 4.515 7.5 7 9.515 11.5 12 11.5zm0 2C9.515 13.5 7.5 15.515 7.5 18H4.5v2h15v-2h-3c0-2.485-2.015-4.5-4.5-4.5z" />
+      </svg>
+      <span class="text-[15px] ml-4 text-gray-200 font-bold">Ventas</span>
+    </div>
+    <div class="my-4 bg-gray-600 h-[1px]"></div>
+    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" (click)="dropdown()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+      </svg>
+      <div class="flex justify-between w-full items-center">
+        <span class="text-[15px] ml-4 text-gray-200 font-bold">Libros</span>
+        <span class="text-sm" [ngClass]="{'rotate-0': isSubmenuHidden}">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 4" />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold" [ngClass]="{'hidden': isSubmenuHidden}">
+      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1" routerLink="/categorias">Categorías</h1>
+      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1" routerLink="/libros">Libros</h1>
+      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1" routerLink="/provedores">Proveedores</h1>
+    </div>
+    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" (click)="dropdown2()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16l4-4 4 4" />
+      </svg>
+      <div class="flex justify-between w-full items-center">
+        <span class="text-[15px] ml-4 text-gray-200 font-bold">Clientes</span>
+        <span class="text-sm" [ngClass]="{'rotate-0': isSubmenuHidden2}">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 4" />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold" [ngClass]="{'hidden': isSubmenuHidden2}">
+      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1" routerLink="/clientes">Clientes</h1>
+      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1" routerLink="/vendedores">Vendedores</h1>
+    </div>
+    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" routerLink="/logout">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-6V7m6 6h-6m0 0V6" />
+      </svg>
+      <span class="text-[15px] ml-4 text-gray-200 font-bold">Cerrar sesión</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="flex-1 p-4 lg:ml-[300px]">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+aside {
+  height: calc(100vh - 6rem); /* Ajusta según sea necesario */
+  position: fixed;/* Ajusta según sea necesario */
+  left: 0;
+  width: 16rem;
+  background-color: #f9fafb; /* Fondo claro */
+  border-right: 1px solid #e5e7eb; /* Borde */
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+main {
+  margin-left: 17rem; /* Ajusta según sea necesario */
+}

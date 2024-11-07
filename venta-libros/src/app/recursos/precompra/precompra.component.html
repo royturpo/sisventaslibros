@@ -1,0 +1,49 @@
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <div class="cart-items">
+    <div *ngFor="let item of cartItems" class="cart-item flex items-center mb-4">
+      <div class="book-image w-24 mr-4">
+        <img [src]="'http://localhost:8095/libros/uploads/' + item.image" [alt]="item.title" class="rounded-lg">
+      </div>
+      <div class="book-details flex-1">
+        <h1 class="book-title text-2xl font-semibold">{{ item.title }}</h1>
+        <p class="book-author text-gray-600">{{ item.description }}</p>
+        <p class="book-price text-red-500 text-xl">S/ {{ item.price }}</p>
+        <div class="quantity mt-2 flex items-center">
+          <input type="number" [(ngModel)]="item.cantidad" [disabled]="true" class="w-12 text-center border rounded">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shipping my-6">
+    <h2 class="text-xl font-semibold mb-4">Calcular Envío</h2>
+    <div class="dropdowns grid grid-cols-2 gap-4 mb-4">
+      <select [(ngModel)]="selectedRegion" (change)="calculateShippingCost()" class="p-2 border rounded">
+        <option *ngFor="let region of regiones" [value]="region">{{ region }}</option>
+      </select>
+      <select [(ngModel)]="selectedDistrict" class="p-2 border rounded">
+        <option *ngFor="let distrito of distritos" [value]="distrito">{{ distrito }}</option>
+      </select>
+    </div>
+    <button (click)="calculateShippingCost()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Calcular envío</button>
+    <div class="shipping-info flex items-center justify-between mt-4">
+      <div class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h4l1 9h12l1-9h4M16 10V4a2 2 0 00-2-2H10a2 2 0 00-2 2v6m10 0H8m-4 0H4M1 18h22m-16 0a4 4 0 11-8 0m18 0a4 4 0 11-8 0" />
+        </svg>
+        <span>Envío S/ {{ shippingCost }}</span>
+      </div>
+      <div>
+        <span>En hasta 5 días hábiles</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary mt-6">
+    <h2 class="text-xl font-semibold mb-4">Resumen de la compra</h2>
+    <p>Subtotal: S/ {{ subtotal }}</p>
+    <p>Envío: S/ {{ shippingCost }}</p>
+    <p>Total: S/ {{ subtotal + shippingCost }}</p>
+    <button (click)="finalizePurchase()" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-600 mt-4">Finalizar Compra</button>
+  </div>
+</div>

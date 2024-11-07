@@ -1,0 +1,29 @@
+a,
+button {
+  transition: all 0.3s linear;
+}
+/* inicio.component.css */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+a,
+button {
+  transition: all 0.3s linear;
+}
+
+section.container {
+  padding: 2.5rem;
+}
+
+h2 {
+  margin-bottom: 2rem;
+}
+
+img {
+  transition: transform 0.3s;
+}
+
+img:hover {
+  transform: scale(1.05);
+}

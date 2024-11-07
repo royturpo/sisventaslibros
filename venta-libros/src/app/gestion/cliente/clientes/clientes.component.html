@@ -1,0 +1,80 @@
+<div class="p-4">
+  <h1 class="text-2xl font-bold mb-4">Gestión de Clientes</h1>
+  <button class="bg-blue-500 text-white px-4 py-2 rounded-md mb-4" (click)="openModal('create')">Agregar Cliente</button>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 border">ID</th>
+          <th class="px-4 py-2 border">Nombre</th>
+          <th class="px-4 py-2 border">DNI</th>
+          <th class="px-4 py-2 border">Teléfono</th>
+          <th class="px-4 py-2 border">Correo</th>
+          <th class="px-4 py-2 border">Dirección</th>
+          <th class="px-4 py-2 border">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes" class="hover:bg-gray-100">
+          <td class="px-4 py-2 border">{{ cliente.id }}</td>
+          <td class="px-4 py-2 border">{{ cliente.nombre }}</td>
+          <td class="px-4 py-2 border">{{ cliente.dni }}</td>
+          <td class="px-4 py-2 border">{{ cliente.telefono }}</td>
+          <td class="px-4 py-2 border">{{ cliente.correo }}</td>
+          <td class="px-4 py-2 border">{{ cliente.direccion }}</td>
+          <td class="px-4 py-2 border">
+            <button class="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2" (click)="openModal('edit', cliente)">Editar</button>
+            <button class="bg-red-500 text-white px-2 py-1 rounded-md" (click)="deleteCliente(cliente.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="fixed z-10 inset-0 overflow-y-auto" *ngIf="isModalOpen">
+    <div class="flex items-center justify-center min-h-screen px-4 text-center">
+      <div class="fixed inset-0 transition-opacity" (click)="closeModal()">
+        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
+      <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full" (click)="$event.stopPropagation()">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">{{ modalTitle }}</h3>
+              <div class="mt-2">
+                <form>
+                  <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre" type="text" [(ngModel)]="selectedCliente.nombre" name="nombre">
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="dni">DNI</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dni" type="text" [(ngModel)]="selectedCliente.dni" name="dni">
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="telefono">Teléfono</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="telefono" type="text" [(ngModel)]="selectedCliente.telefono" name="telefono">
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="correo">Correo</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="correo" type="email" [(ngModel)]="selectedCliente.correo" name="correo">
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="direccion">Dirección</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="direccion" type="text" [(ngModel)]="selectedCliente.direccion" name="direccion">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" (click)="saveCliente()">Guardar</button>
+          <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm" (click)="closeModal()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

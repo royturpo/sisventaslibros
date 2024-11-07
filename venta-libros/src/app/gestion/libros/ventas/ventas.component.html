@@ -1,0 +1,33 @@
+<div class="p-4">
+  <h1 class="text-2xl font-bold mb-4">Gestión de Ventas</h1>
+  <button class="bg-green-500 text-white px-4 py-2 rounded-md mb-4" (click)="downloadSalesReport()">Descargar Informe de Ventas</button>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">ID</th>
+          <th class="px-4 py-2 border">Fecha</th>
+          <th class="px-4 py-2 border">Usuario</th>
+          <th class="px-4 py-2 border">Total</th>
+          <th class="px-4 py-2 border">IGV</th>
+          <th class="px-4 py-2 border">Total con IGV</th>
+          <th class="px-4 py-2 border">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venta of ventas">
+          <td class="px-4 py-2 border">{{ venta.id }}</td>
+          <td class="px-4 py-2 border">{{ venta.fecha | date:'medium' }}</td>
+          <td class="px-4 py-2 border">{{ venta.userId }}</td>
+          <td class="px-4 py-2 border">{{ venta.total | currency }}</td>
+          <td class="px-4 py-2 border">{{ venta.igv | currency }}</td>
+          <td class="px-4 py-2 border">{{ venta.totalConIgv | currency }}</td>
+          <td class="px-4 py-2 border">
+            <button class="bg-blue-500 text-white px-2 py-1 rounded-md mr-2" (click)="downloadReceipt(venta.id)">Descargar Recibo</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

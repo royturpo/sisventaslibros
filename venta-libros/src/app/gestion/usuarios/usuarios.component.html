@@ -1,0 +1,59 @@
+<div class="p-4">
+  <h1 class="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">ID</th>
+          <th class="px-4 py-2 border">Username</th>
+          <th class="px-4 py-2 border">Rol</th>
+          <th class="px-4 py-2 border">Cliente/Vendedor</th>
+          <th class="px-4 py-2 border">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td class="px-4 py-2 border">{{ usuario.id }}</td>
+          <td class="px-4 py-2 border">{{ usuario.userName }}</td>
+          <td class="px-4 py-2 border">{{ usuario.rol }}</td>
+          <td class="px-4 py-2 border">
+            <span *ngIf="!usuario.clienteId && !usuario.vendedorId">No Asignado</span>
+            <span *ngIf="usuario.clienteId">Asignado al Cliente ID: {{ usuario.clienteId }}</span>
+            <span *ngIf="usuario.vendedorId">Asignado al Vendedor ID: {{ usuario.vendedorId }}</span>
+          </td>
+          <td class="px-4 py-2 border">
+            <button class="bg-red-500 text-white px-2 py-1 rounded-md mr-2" (click)="deleteUser(usuario.id)">Eliminar</button>
+            <button class="bg-blue-500 text-white px-2 py-1 rounded-md" (click)="openAssignModal(usuario.id)">Asignar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal for assigning client or vendor -->
+  <div *ngIf="selectedUserId !== null" class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4 text-center">
+      <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+        <div class="bg-white p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Asignar Cliente o Vendedor</h3>
+          <div class="mt-2">
+            <label for="clientSelect" class="block text-sm font-medium text-gray-700">Seleccionar Cliente</label>
+            <select id="clientSelect" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="assignClientOrVendor(selectedUserId!, 'cliente', $event)">
+              <option value="" disabled selected>Seleccionar Cliente</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
+            </select>
+
+            <label for="vendorSelect" class="block text-sm font-medium text-gray-700 mt-4">Seleccionar Vendedor</label>
+            <select id="vendorSelect" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="assignClientOrVendor(selectedUserId!, 'vendedor', $event)">
+              <option value="" disabled selected>Seleccionar Vendedor</option>
+              <option *ngFor="let vendedor of vendedores" [value]="vendedor.id">{{ vendedor.nombre }}</option>
+            </select>
+          </div>
+          <div class="mt-5 sm:mt-6">
+            <button type="button" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-700 sm:text-sm" (click)="selectedUserId = null">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
